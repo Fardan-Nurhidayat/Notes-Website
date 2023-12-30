@@ -1,36 +1,27 @@
 import React from "react";
-import { useSearchParams } from "react-router-dom";
-import {
-  deleteNote,
-  getArchivedNotes,
-  unarchiveNote,
-} from "../utils/local-data";
-import NotesList from "../components/NotesList";
-import SearchBar from "../components/SearchBar";
+import { Route, Routes } from "react-router-dom";
+import { Link } from "react-router-dom";
+import SearchBar from "./SearchBar";
+import NotesList from "./NotesList";
+import Navigation from "./Navigation";
+import InputNotes from "./InputNotes";
+import HomePage from "../pages/HomePage";
+import AddPage from "../pages/AddPage";
 import PropTypes from "prop-types";
-export default function HomePageWrapper() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const keyword = searchParams.get("keyword");
 
-  function changeSearchParams(keyword) {
-    setSearchParams({ keyword });
-  }
-  return (
-    <ArchivedPage defaultKeyword={keyword} keywordChange={changeSearchParams} />
-  );
-}
+import {
+  getArchivedNotes,
+  deleteNote,
+  getUnArchived,
+} from "../utils/local-data";
 
-class ArchivedPage extends React.Component {
+class ArchivedNotes extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       notes: getArchivedNotes(),
       keyword: props.defaultKeyword || "",
     };
-
-    this.onDeleteHandler = this.onDeleteHandler.bind(this);
-    this.onUnArchiveHandler = this.onUnArchiveHandler.bind(this);
-    this.onKeywordChangeHandler = this.onKeywordChangeHandler.bind(this);
   }
 
   onDeleteHandler(id) {
@@ -41,9 +32,8 @@ class ArchivedPage extends React.Component {
       };
     });
   }
-
   onUnArchiveHandler(id) {
-    unarchiveNote(id);
+    getUnArchived(id);
     this.setState(() => {
       return {
         notes: getArchivedNotes(),
@@ -68,28 +58,27 @@ class ArchivedPage extends React.Component {
     });
     return (
       <section className="homepage">
-        <h2>Catatan Aktif</h2>
+        <h2>Catatan Terarsip</h2>
         <SearchBar
           keyword={this.state.keyword}
           onKeywordChange={this.onKeywordChangeHandler}
         />
         <NotesList
           notes={notes}
-          onArchive={this.onArchieveHandler}
+          onUnArchive={this.onUnArchiveHandler}
           onDelete={this.onDeleteHandler}
-          onActive={this.onUnArchiveHandler}
         />
       </section>
     );
   }
 }
 
-ArchivedPage.propTypes = {
-  defaultKeyword: PropTypes.string,
+ArchivedNotes.propTypes = {
   keywordChange: PropTypes.func,
-  keyword: PropTypes.string,
-  onDeleteHandler: PropTypes.func,
+  keyWord: PropTypes.string,
   onUnArchiveHandler: PropTypes.func,
+  onDeleteHandler: PropTypes.func,
+  notes: PropTypes.array,
 };
 
 console.log(getArchivedNotes());

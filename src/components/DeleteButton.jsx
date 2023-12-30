@@ -1,5 +1,5 @@
 import { FiTrash } from "react-icons/fi";
-
+import PropTypes from "prop-types";
 export default function DeleteButton({ id, onDelete }) {
   return (
     <button
@@ -9,3 +9,7 @@ export default function DeleteButton({ id, onDelete }) {
     </button>
   );
 }
+
+DeleteButton.propTypes = {
+  onDelete: PropTypes.func,
+};

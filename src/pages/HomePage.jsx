@@ -9,6 +9,7 @@ import {
 import NotesList from "../components/NotesList";
 import SearchBar from "../components/SearchBar";
 import InputNotes from "../components/InputNotes";
+import PropTypes from "prop-types";
 
 export default function HomePageWrapper() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -88,3 +89,12 @@ class HomePage extends React.Component {
 }
 console.log(getNote("notes-1"));
 console.log(getActiveNotes());
+
+HomePage.propTypes = {
+  defaultKeyword: PropTypes.string,
+  keywordChange: PropTypes.func,
+  keyword: PropTypes.string,
+  notes: PropTypes.array,
+  onArchieveHandler: PropTypes.func,
+  onDeleteHandler: PropTypes.func,
+};

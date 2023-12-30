@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import propTypes from "prop-types";
 import { getNote } from "../utils/local-data";
 import NotesDetail from "../components/NotesDetail";
-
+import PropTypes from "prop-types";
 export default function DetailPageWrapper() {
   const { id } = useParams();
 
@@ -39,3 +39,8 @@ class DetailPage extends React.Component {
     );
   }
 }
+
+DetailPage.propTypes = {
+  id: PropTypes.string,
+  notes: PropTypes.array,
+};
